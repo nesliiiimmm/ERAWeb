@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "YeniSiparis";
+    SIPUST ust = JsonConvert.DeserializeObject<SIPUST>(Context.Session.GetString("YeniSiparisUst") ?? "");
+}
+
+@model Tuple<List<OZEL>, List<OZEL>, List<OZEL>>
+<div class="row">
+    <div class="col-lg-12 col-xxl-12">
+        <div class="card card-custom card-stretch gutter-b">
+            <div class="card-header border-0 py-5">
+
+                <h3 class="card-title align-items-start flex-column">
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#YeniSiparis">Ekle</button>
+
+                </h3>
+                <div class="card-toolbar">
+                    <button class="btn btn-warning sil" type="button">&nbsp;&nbsp;Sil&nbsp;&nbsp; </button>
+                    <button class="btn btn-danger temizle" type="button">Temizle</button>
+
+                </div>
+            </div>
+            <div class="card-header">
+                <div class="card-title align-items-start flex-column">
+                </div>
+                <div class="card-toolbar">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle tip" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="width:80px">
+                            @if (ust != null && ust.TP != null)
+                            {
+                                @ust.TP
+                            }
+                            else
+                            {
+                                Write("Tip");
+                            }
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="javascript:TPEkle(0)">Tip 0</a>
+                            <a class="dropdown-item" href="javascript:TPEkle(1)">Tip 1</a>
+                            <a class="dropdown-item" href="javascript:TPEkle(2)">Tip 2</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle ozel1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="width:80px">
+                            @if (ust != null && !string.IsNullOrEmpty(ust.OZEL1))
+                            {
+                                @ust.OZEL1
+                            }
+                            else
+                            {
+                                Write("Ozel1");
+                            }
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var item in Model.Item1)
+                            {
+                                <a class="dropdown-item" href="javascript:ozelSec(1,'@item.KODU')">@item.KODU</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle ozel2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" style="width:80px">
+                            @if (ust != null && !string.IsNullOrEmpty(ust.OZEL2))
+                            {
+                                @ust.OZEL2
+                            }
+                            else
+                            {
+                                Write("Ozel2");
+                            }
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var item in Model.Item2)
+                            {
+                                <a class="dropdown-item" href="javascript:ozelSec(2,'@item.KODU')">@item.KODU</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle ozel3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:80px">
+                            @if (ust != null && !string.IsNullOrEmpty(ust.OZEL3))
+                            {
+                                @ust.OZEL3
+                            }
+                            else
+                            {
+                                Write("Ozel3");
+                            }
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var item in Model.Item3)
+                            {
+                                <a class="dropdown-item" href="javascript:ozelSec(3,'@item.KODU')">@item.KODU</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tblEklenenSiparisler">
+
+                @await Component.InvokeAsync("Siparis")
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="YeniSiparis" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Siparis</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+                    <div class="d-flex align-items-center">
+                        <a href="/Era/CikisYap" class="mr-7">
+                            Çıkış Yap
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-root">
+                    <div class="d-flex flex-row flex-column-fluid page">
+                        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                            <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                                <div class="d-flex flex-column-fluid">
+                                    <div class=" container ">
+                                        <div class="card card-custom">
+                                            <div class="card-body">
+                                                <div class="mb-7">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-9 col-xl-8">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4 my-2 my-md-0">
+                                                                    <div class="input-icon">
+                                                                        <input type="text" id="txtArama" autocomplete="off" class="form-control" placeholder="Arama.." />
+                                                                        <span><i class="flaticon2-search-1 text-muted"></i></span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive tblUrun" style="max-height:300px;overflow:scroll">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Tamam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        var sayacDef = 5;
+        var sayac = sayacDef;
+
+        var basladi = false;
+        var aramaQuery = "";
+        $("#txtArama").keyup(function () {
+            var t = $(this);
+            var v = t.val();
+            aramaQuery = "aranan=" + v;
+
+            if (sayac == sayacDef)
+                say();
+            sayac = sayacDef;
+
+
+        });
+
+        function say() {
+            sayac--;
+            if (sayac <= 0) {
+
+                sayac = sayacDef;
+                $.ajax({
+                    type: "GET",
+                    url: "/Siparis/UrunArama",
+                    data: aramaQuery,
+                    success: function (res) {
+                        $(".tblUrun").html(res);
+
+                        var ekliler = $(".satirMiktar");
+                        var urunler = $(".sayi");
+
+                        for (var i = 0; i < ekliler.length; i++) {
+
+                            for (var j = 0; j < urunler.length; j++) {
+                                var ekli = $(ekliler[i]);
+                                var urun = $(urunler[j]);
+                                var ekliid = ekli.data("id");
+                                var urunid = urun.data("id");
+                                if (ekliid && urunid) {
+                                    if (ekliid == urunid) {
+                                        var ss = ekli.val();
+                                        urun.html(ss);
+                                    }
+                                }
+                            }
+                        }
+
+                        $(".btnUrunSec").click(function () {
+                            var t = $(this);
+                            var id = t.data("id");
+                            var dt = "/Siparis/YeniSipariseUrunEkle/" + id;
+                            var sayi = parseInt($(".sayi", t).html());
+                            sayi++;
+                            $(".sayi", t).html(sayi);
+
+                            $.get(dt, function (res) {
+
+                                SiparisEkraniYazdir(res)
+                                //t.addClass("btn-primary");
+                                //t.removeClass("btn-success")
+                            });
+                        });
+                        $(".btnUrunAzalt").click(function () {
+                            var t = $(this);
+                            var id = t.data("id");
+                            var dt = "/Siparis/YeniSiparisUrunAzalt/" + id;
+                            var t1 = $(".btnUrunSec[data-id='" + id + "'] .sayi");
+                            var sayi = parseInt(t1.html());
+                            if (sayi > 0)
+                                sayi--;
+                            t1.html(sayi);
+                            $.get(dt, function (res) {
+                                SiparisEkraniYazdir(res)
+                            });
+                        });
+                    }
+                });
+            } else {
+                setTimeout(function () {
+                    say();
+                }, 100);
+            }
+
+        }
+
+        $(".temizle").click(function () {
+            $.get("/Siparis/YeniSiparisTemizle", function (res) {
+                SiparisEkraniYazdir(res)
+            });
+        });
+
+        $(".sil").click(function () {
+
+            $(".chkSipUrun").each(function (chk) {
+                var t = $(this);
+                if (t[0].checked) {
+                    var id = t.data("id");
+                    $.get("/Siparis/YeniSiparisUrunSil/" + id, function (res) {
+                        SiparisEkraniYazdir(res)
+                    });
+                }
+            });
+        });
+
+
+
+        SiparisEkraniYazdir($(".tblEklenenSiparisler").html());
+
+        function SiparisEkraniYazdir(res) {
+            $(".tblEklenenSiparisler").html(res);
+            $(".btnKaydet").click(function () {
+                $.get("/Siparis/YeniSiparisKaydet", function (res) {
+                    SiparisEkraniYazdir(res);
+                });
+            });
+            $(".satirFiyat").focusout(function () {
+
+                var t = $(this);
+                var id = t.data("id");
+                var prm = "?urunid=" + id + "&fiyat=" + t.val();
+                $.get("/Siparis/YeniSiparisFiyatDegistir" + prm, function (res) {
+                    SiparisEkraniYazdir(res);
+                })
+            });
+            $(".satirMiktar").focusout(function () {
+
+                var t = $(this);
+                var id = t.data("id");
+                var prm = "?urunid=" + id + "&miktar=" + t.val();
+                $.get("/Siparis/YeniSiparisMiktarDegistir" + prm, function (res) {
+                    SiparisEkraniYazdir(res);
+                })
+            });
+        }
+
+        function ozelSec(num, kod) {
+            $.get("/Siparis/OzelSec?num=" + num + "&kod=" + kod, function (res) {
+                var cl = ".ozel" + num;
+                $(cl).html(res);
+
+            });
+        }
+        function TPEkle(id) {
+            $.get("/Siparis/TPEkle/" + id, function (res) {
+                var tip = ".tip";
+                $(tip).html(res);
+            })
+        }
+
+    </script>
+}

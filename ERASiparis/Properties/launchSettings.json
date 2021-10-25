@@ -1,0 +1,29 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:1031",
+      "sslPort": 44342
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "ERASiparis": {
+      "commandName": "Project",
+      "commandLineArgs": "--tarih 20210127132135 --urls http://0.0.0.0:1970 --genel \"Server=.\\NESLIHAN;Database=Genel;Trusted_Connection=True;\" --database \"Server=.\\NESLIHAN;Database=Db_200;Trusted_Connection=True;\" --hash 7c92381526b8f1df53fe72381509ab5a --tirrek nesli1244212210",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:1940;http://localhost:1970"
+    }
+  }
+}

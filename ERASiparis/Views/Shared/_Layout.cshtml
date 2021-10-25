@@ -1,0 +1,231 @@
+﻿@{
+    var us = Context.Session.GetString("AktifUser");
+    var u = JsonConvert.DeserializeObject<KULLANVIEW>(us);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <title>ERA</title>
+    <meta name="description" content="Updates and statistics" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link href="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/media/logos/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/media/logos/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/media/logos/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/media/logos/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/media/logos/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/media/logos/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/media/logos/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/media/logos/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/logos/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/logos/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/media/logos/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/media/logos/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/media/logos/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/media/logos/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#1a1029">
+    <meta name="msapplication-TileImage" content="/assets/media/logos/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#1a1029">
+    @RenderSection("head", false)
+</head>
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
+    <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed ">
+        <div class="d-flex align-items-center">
+            <a href="/Era/CikisYap" class="mr-7">
+                Çıkış Yap
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                <span></span>
+            </button>
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-root">
+        <div class="d-flex flex-row flex-column-fluid page">
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                <div id="kt_header" class="header flex-column  header-fixed ">
+                    <div class="header-bottom">
+                        <div class=" container ">
+                            <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                                <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default ">
+                                    <ul class="menu-nav ">
+                                        @if (u.CARIACMA == true)
+                                        {
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Cari/CariEkle" class="menu-link "><span class="menu-text">Cari Ekle</span></a></li>
+                                        }
+
+                                        else
+                                        {
+
+                                        }
+                                        <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Cari/Index" class="menu-link "><span class="menu-text">Cari</span></a></li>
+                                        @if (u.SIPARIS == true && u.FATURA == false)
+                                        {
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Siparis/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Siparis/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                        }
+                                        @if (u.FATURA == true && u.SIPARIS == false)
+                                        {
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                        }
+                                        @if (u.FATURA == true && u.SIPARIS == true)
+                                        {
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="header-menu-wrapper header-menu-wrapper-right" id="kt_header_mobile_toggle">
+                                <div class="header-menu header-menu-right header-menu-mobile  header-menu-layout-default ">
+                                    <ul class="menu-nav ">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li class="menu-item  menu-item-active menu-item-right " aria-haspopup="true"><span class="menu-text text-white-50">@User.Identity.Name</span></li>
+
+                                        }
+                                        <li class="menu-item  menu-item-active menu-item-right" aria-haspopup="true"><a href="/Era/CikisYap" class="menu-link "><span class="menu-text">Çıkış yap</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column-fluid py-20">
+                    <div class=" container ">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<script src="~/Scripts/jquery-3.5.1.js"></script>
+        <script src="/Scripts/bootstrap.js"></script>*@
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+    <script src="/assets/js/scripts.bundle.js"></script>
+    <script src="/assets/js/pages/crud/ktdatatable/base/data-local.js"></script>
+    <script>
+        var KTAppSettings = {
+            "breakpoints": {
+                "sm": 576,
+                "md": 768,
+                "lg": 992,
+                "xl": 1200,
+                "xxl": 1200
+            },
+            "colors": {
+                "theme": {
+                    "base": {
+                        "white": "#ffffff",
+                        "primary": "#0BB783",
+                        "secondary": "#E5EAEE",
+                        "success": "#1BC5BD",
+                        "info": "#8950FC",
+                        "warning": "#FFA800",
+                        "danger": "#F64E60",
+                        "light": "#F3F6F9",
+                        "dark": "#212121"
+                    },
+                    "light": {
+                        "white": "#ffffff",
+                        "primary": "#D7F9EF",
+                        "secondary": "#ECF0F3",
+                        "success": "#C9F7F5",
+                        "info": "#EEE5FF",
+                        "warning": "#FFF4DE",
+                        "danger": "#FFE2E5",
+                        "light": "#F3F6F9",
+                        "dark": "#D6D6E0"
+                    },
+                    "inverse": {
+                        "white": "#ffffff",
+                        "primary": "#ffffff",
+                        "secondary": "#212121",
+                        "success": "#ffffff",
+                        "info": "#ffffff",
+                        "warning": "#ffffff",
+                        "danger": "#ffffff",
+                        "light": "#464E5F",
+                        "dark": "#ffffff"
+                    }
+                },
+                "gray": {
+                    "gray-100": "#F3F6F9",
+                    "gray-200": "#ECF0F3",
+                    "gray-300": "#E5EAEE",
+                    "gray-400": "#D6D6E0",
+                    "gray-500": "#B5B5C3",
+                    "gray-600": "#80808F",
+                    "gray-700": "#464E5F",
+                    "gray-800": "#1B283F",
+                    "gray-900": "#212121"
+                }
+            },
+            "font-family": "Poppins"
+        };
+    </script>
+    <script>
+        var KTBootstrapDatepicker = function () {
+
+            var arrows;
+            if (KTUtil.isRTL()) {
+                arrows = {
+                    leftArrow: '<i class="la la-angle-right"></i>',
+                    rightArrow: '<i class="la la-angle-left"></i>'
+                }
+            } else {
+                arrows = {
+                    leftArrow: '<i class="la la-angle-left"></i>',
+                    rightArrow: '<i class="la la-angle-right"></i>'
+                }
+            }
+
+            // enable clear button
+            $('#kt_datepicker_4').datepicker({
+                rtl: KTUtil.isRTL(),
+                todayBtn: "linked",
+                clearBtn: true,
+                todayHighlight: true,
+                templates: arrows
+            });
+
+            // Private functions
+            var demos = function () {
+                // enable clear button
+                $('#kt_datepicker_3').datepicker({
+                    rtl: KTUtil.isRTL(),
+                    todayBtn: "linked",
+                    clearBtn: true,
+                    todayHighlight: true,
+                    templates: arrows
+                });
+            }
+
+            return {
+                // public functions
+                init: function () {
+                    demos();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            KTBootstrapDatepicker.init();
+        });
+    </script>
+    @RenderSection("Scripts", false)
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "CariEkle";
+    List<OZEL> ozel1 = JsonConvert.DeserializeObject<List<OZEL>>(Context.Session.GetString("CariOzelKod1"));
+    List<OZEL> ozel2 = JsonConvert.DeserializeObject<List<OZEL>>(Context.Session.GetString("CariOzelKod2"));
+}
+
+<div class="d-flex flex-column-fluid">
+    <div class=" container ">
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <div class="wizard wizard-1" id="kt_wizard_v1" data-wizard-state="step-first" data-wizard-clickable="false">
+                    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
+                        <div class="col-xl-12 col-xxl-7">
+                            <form class="form" method="post" action="/Cari/CariKaydet">
+                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                    <div class="row">
+                                        <div class="col-xl-4">
+                                            <h3 class="mb-10 font-weight-bold text-dark">Cari Ekle</h3>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <h4 class="mb-10 text-danger">@Html.Raw(ViewBag.Message)</h4>
+                                        </div>
+                                        <div class="col-xl-4  text-right">
+                                            <a href="/Cari/CariList" class="btn btn-primary" type="button" >Carilerim</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Kodu :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="KODU" placeholder="Kodu" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Kart Tipi :</label>
+                                                <select name="KARTTIPI" class="form-control form-control-solid form-control-lg">
+                                                    <option value="1-Müşteri">1-Müşteri</option>
+                                                    <option value="2-Satıcı">2-Satıcı</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Firma Adı:</label>
+                                        <input type="text" class="form-control form-control-solid form-control-lg" name="FIRMAADI" placeholder="Firma Adı" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Adı :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="ADI" placeholder="Adı" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Soyadı :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="SOYADI" placeholder="Soyadı" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Adres:</label>
+                                        <input type="text" class="form-control form-control-solid form-control-lg" name="ADRES" placeholder="Adres" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>İL :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="IL" placeholder="İL" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>İLÇE :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="ILCE" placeholder="İLCE" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>VD :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="VD" placeholder="Vergi Dairesi" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>VN :</label>
+                                                <input type="text" class="form-control form-control-solid form-control-lg" name="VN" placeholder="Vergi - Tc No" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Özel 1 :</label>
+                                                <select name="OZEL1" class="form-control form-control-solid form-control-lg">
+                                                    @foreach (var item in ozel1)
+                                                    {
+
+                                                        <option value=@item.KODU>@item.KODU - @item.ADI</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Özel 2 :</label>
+                                                <select name="OZEL2" class="form-control form-control-solid form-control-lg">
+                                                    @foreach (var item in ozel2)
+                                                    {
+
+                                                        <option value=@item.KODU>@item.KODU - @item.ADI</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between border-top mt-5 pt-10 right">
+                                    <div>
+                                        <button type="submit" class="btn btn-primary font-weight-bold text-uppercase px-9 py-4">
+                                            Kaydet
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

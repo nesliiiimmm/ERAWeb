@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model List<STOKKARTI>
+@{
+    void yaz(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N2").Replace(",", "."));
+        }
+        else
+        {
+            Write("0.00");
+        }
+    }
+}
+@{
+    void yaz1(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N0").Replace(",", "."));
+        }
+        else
+        {
+            Write("0");
+        }
+    }
+}
+<table class="table table-head-custom table-vertical-center">
+    <thead>
+        <tr class="text-left">
+            <th>Miktar</th>
+            <th style="max-width:60px"> KOD <br />STOK</th>
+            <th> ADI </th>
+            <th> SATIS FIYATI </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    <button class="btn btn-success btnUrunSec" data-id="@item.ID" type="button" style="float:left"><span class="sayi" data-id="@item.ID">0</span>+</button>
+                    <button class="btn btn-warning btnUrunAzalt" data-id="@item.ID" type="button" style="float:left">-</button>
+                </th>
+                <th style="max-width:60px;padding:1px"> @item.KODU <br />Stk:@{yaz1(item.STOK);} </th>
+                <th> @item.ADI </th>
+                <td class="pl-0"><input type="number" style="width: 85px" class="form-control satirFiyat txtEkleSatirFiyat" data-id="@item.ID" value="@{yaz(item.B1FIYAT_ST1);}" /> </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

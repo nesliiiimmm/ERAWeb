@@ -1,0 +1,116 @@
+﻿
+@{
+    Layout = null;
+    CARIKART k = JsonConvert.DeserializeObject<CARIKART>(Context.Session.GetString("AktifCariKart") ?? "");
+    KULLANVIEW c = JsonConvert.DeserializeObject<KULLANVIEW>(Context.Session.GetString("AktifUser") ?? "");
+}
+@model List<SIPARISVIEW>
+
+@{
+    void yaz(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N2").Replace(",", "."));
+        }
+        else
+        {
+            Write("0.00");
+        }
+    }
+}
+@{
+    void yaz1(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N0").Replace(",", "."));
+        }
+        else
+        {
+            Write("0");
+        }
+    }
+}
+
+<div class="card-body py-0">
+    <div class="table-responsive">
+        <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+            <thead>
+                <tr class="text-left">
+                    <th class="pl-0" style="width: 20px">
+                    </th>
+                    <th class="pl-0" style="width: 20px">Kodu</th>
+                    <th style="min-width: 200px">Adı</th>
+                    <th style="min-width: 150px">Miktar</th>
+                    <th style="min-width: 150px">Fiyat</th>
+                    <th style="min-width: 150px">Tutar</th>
+                    <th class="pr-0 text-right" style="min-width: 150px">Genel Toplam</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th class="pl-0" style="width: 20px">
+                            <label class="checkbox checkbox-lg checkbox-inline">
+                                <input class="chkSipUrun" data-id="@item.URUNID" type="checkbox" value="1" />
+                                <span></span>
+                            </label>
+                        </th>
+                        <td class="pl-0"> @item.KODU</td>
+                        <td class="pl-0"> <b> @item.ADI</b> </td>
+                        <td class="pl-0"> <input style="width: 70px" type="number" class="form-control satirMiktar" data-id="@item.URUNID" value="@{yaz1(item.MIKTAR); }" /></td>
+                        @if (c.KARTTIPI.StartsWith("1"))
+                        {
+                            <td class="pl-0"><input type="number" style="width: 85px" class="form-control satirFiyat" data-id="@item.URUNID" value="@{yaz(item.FIYAT); }" /> </td>
+                        }
+                        else
+                        {
+                            <td class="pl-0"> @{yaz(item.FIYAT); }</td>
+                        }
+                        <td class="pl-0"> @{yaz(item.TUTAR);}</td>
+                        <td class="pl-0 text-right">@{yaz(item.GENELTOPLAM);}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-sm-12"></div>
+        <div class="col-md-4 col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-vertical-center">
+                    <tbody>
+                        @foreach (var item in ViewBag.Toplamlar)
+                        {
+                            <tr>
+                                <td><b>@item.Item1</b></td>
+                                <td>@item.Item2</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                @if (k != null)
+                                {
+                                    <span>Cari :@k.FIRMAADI</span>
+                                }
+
+                            </td>
+                            <td>
+                                @if (k != null)
+                                {
+                                    <button class="btn btn-primary btnKaydet" type="button">Kaydet</button>
+                                }
+                                else
+                                {
+                                    <span>Siparişi Kaydetmek için. Lütfen Cari Seçiniz</span>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

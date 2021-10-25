@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model List<CARIKART>
+
+<table class="table table-head-custom table-vertical-center">
+    @if (Model != null && Model.Any())
+    {
+
+        foreach (var i in Model)
+        {
+            <tr>
+                <td><input class="btn btn-success cariSec" type="button" name="Sec" value="Seç" data-cariid="@i.ID" /></td>
+                <td>@i.KODU</td>
+                <td>@i.FIRMAADI</td>
+                <td>@i.IL</td>
+                <td>@i.IL</td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5">Kayıt Bulunamadı</td>
+        </tr>
+    }
+</table>
+<script>
+    $(".cariSec").click(function () {
+        var id = $(this).data("cariid");
+        $.get("/Cari/CariSecim/" + id, function (res) {
+            location.reload();
+        });
+
+    });
+</script>

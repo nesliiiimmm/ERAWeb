@@ -1,0 +1,139 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model List<STOKKARTI>
+
+
+@{
+    void yaz(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N2").Replace(",", "."));
+        }
+        else
+        {
+            Write("0.00");
+        }
+    }
+}
+@{
+    void yaz1(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N0").Replace(",", "."));
+        }
+        else
+        {
+            Write("0");
+        }
+    }
+}
+
+<table class="table table-head-custom table-vertical-center">
+    <thead>
+        <tr class="text-left">
+            <th>Miktar</th>
+            <th style="max-width:60px"> KOD <br />STOK</th>
+            <th> ADI </th>
+            <th> SATIS FIYATI </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    <button class="btn btn-success btnUrunSec" data-id="@item.ID" type="button" style="float:left"><span class="sayi" data-id="@item.ID">0</span>+</button>
+                    <button class="btn btn-warning btnUrunAzalt" data-id="@item.ID" type="button" style="float:left">-</button>
+                </th>
+                <th style="max-width:60px;padding:1px"> @item.KODU <br />Stk:@{yaz1(item.STOK);} </th>
+                <th> @item.ADI </th>
+                <th>@{yaz(item.B1FIYAT_ST1);}</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal" id="YeniSiparis" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Siparis</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+                    <a href="index.html">
+                        <img alt="Logo" class="w-45px" src="assets/media/logos/logo-letter-13.png" />
+                    </a>
+                    <div class="d-flex align-items-center">
+                        <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">
+                            <span></span>
+                        </button>
+                        <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                            <span></span>
+                        </button>
+                        <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+                            <span class="svg-icon svg-icon-xl">
+                                <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon points="0 0 24 0 24 24 0 24" />
+                                        <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                        <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                    </g>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-root">
+                    <div class="d-flex flex-row flex-column-fluid page">
+                        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                            <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                                <div class="d-flex flex-column-fluid">
+                                    <div class=" container ">
+                                        <div class="card card-custom">
+                                            <div class="card-body">
+                                                <div class="mb-7">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-9 col-xl-8">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4 my-2 my-md-0">
+                                                                    <div class="input-icon">
+                                                                        <input type="text" id="txtArama" autocomplete="off" class="form-control" placeholder="Arama.." />
+                                                                        <span><i class="flaticon2-search-1 text-muted"></i></span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive tblUrun" style="max-height:300px;overflow:scroll">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Tamam</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

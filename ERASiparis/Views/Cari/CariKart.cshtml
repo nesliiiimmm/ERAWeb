@@ -1,0 +1,289 @@
+﻿
+@{
+    Layout = null;
+    //var uk = Context.Session.GetString("AktifCariKart");
+
+    var u = JsonConvert.DeserializeObject<CARIKART>(Context.Session.GetString("AktifCariKart") ?? "");
+    var k = JsonConvert.DeserializeObject<KULLANVIEW>(Context.Session.GetString("AktifUser") ?? "");
+    var t = JsonConvert.DeserializeObject<CARITOPLAM>(Context.Session.GetString("AktifCariToplam") ?? "");
+    var t0 = JsonConvert.DeserializeObject<CARITOPLAM>(Context.Session.GetString("AktifCariToplamTP0"));// Bu cari toplama mı eşittt????? Bence eşit
+    var t1 = JsonConvert.DeserializeObject<CARITOPLAM>(Context.Session.GetString("AktifCariToplamTP1"));
+    var t2 = JsonConvert.DeserializeObject<CARITOPLAM>(Context.Session.GetString("AktifCariToplamTP2"));
+    var Banka = BANKAORM.Current.Select();
+    var kasa = KASAORM.Current.Select();
+
+    //var secilentip = Context.Session.GetInt32("SecilenTip");
+}
+
+@model Tuple<CARIKART, CARITOPLAM>
+
+<div class="card card-custom card-stretch gutter-b">
+    <div class="card-header border-0 py-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label font-weight-bolder text-dark">CariKart</span>
+            <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
+        </h3>
+    </div>
+    <div class="card-body py-0">
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                <tbody>
+                    <tr>
+                        <td class="pl-0">
+                            <a href="" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">Kodu</a>
+                        </td>
+                        <td class="pl-0">@Model.Item1.KODU</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-0">
+                            <a href="" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">Adı</a>
+                        </td>
+                        <td class="pl-0">@Model.Item1.FIRMAADI</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-0">
+                            <a href="" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"></a>
+                        </td>
+                        <td class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">T</td>
+                        <td class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">T0</td>
+                        <td class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">T1</td>
+                        <td class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">T2</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-0">
+                            <a href="" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">Borç</a>
+                        </td>
+                        <td class="pl-0">@Html.Raw(Model.Item2?.Borc.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t0?.Borc.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t1?.Borc.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t2?.Borc.ToString("N2"))</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-0">
+                            <a href="" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">Alacak</a>
+                        </td>
+                        <td class="pl-0">@Html.Raw(Model.Item2?.Alacak.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t0?.Alacak.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t1?.Alacak.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t2?.Alacak.ToString("N2"))</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-0">
+                            <a href="" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">Bakiye</a>
+                        </td>
+                        <td class="pl-0">@Html.Raw(Model.Item2?.Bakiye.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t0?.Bakiye.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t1?.Bakiye.ToString("N2"))</td>
+                        <td class="pl-0">@Html.Raw(t2?.Bakiye.ToString("N2"))</td>
+                    </tr>
+                    @if (u != null)
+                    {
+                <tr>
+                    @if (k.KREDITAHSILAT == true)
+                    {
+                        <td class="pl-0 col-4 flex-lg-fill">
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#nakit">Nakit</button>
+                        </td>
+
+                    }
+
+                    @if (k.NAKITTAHSILAT == true)
+                    {
+                        <td class="pl-0 col-4 flex-lg-fill">
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#kart">Kredi</button>
+                        </td>
+                    }
+                    @if (k.CEKSENETTAHSILAT == true)
+                    {
+                        <td class="pl-0 col-4 flex-lg-fill">
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#ceksenet">Çek-Senet T.</button>
+                        </td>
+                    }
+                </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal " id="nakit" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nakit Tahsilat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+                    <div class="d-flex align-items-center">
+                        <a href="/Era/CikisYap" class="mr-7">
+                            Çıkış Yap
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-root">
+                    <div class="d-flex flex-row flex-column-fluid page">
+                        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                            <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                                <div class="d-flex flex-column-fluid">
+                                    <div class=" container ">
+                                        <div class="card card-custom">
+                                            <div class="card-body">
+                                                <div class="mb-7">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-9 col-xl-8">
+                                                            <div class="row align-items-center">
+                                                                @if (t != null)
+                                                                {
+                                                                    <h5>Bakiye : @Html.Raw(t.Bakiye.ToString("N2"))</h5>
+                                                                }
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <div class="dropdown ">
+                                                                    <button class="btn btn-secondary dropdown-toggle drpKasa" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true">
+                                                                        KASA
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        @foreach (var item in kasa.Data)
+                                                                        {
+                                                                            <a class="dropdown-item" data-id="@item.ID" href="javascript:kasaSec(@item.ID,'@item.ADI')">@item.KODU - @item.ADI </a>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <div class="dropdown ">
+                                                                    <button class="btn btn-secondary dropdown-toggle drpKasa" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true">
+                                                                        KASA
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        @foreach (var item in kasa.Data)
+                                                                        {
+                                                                            <a class="dropdown-item" data-id="@item.ID" href="javascript:kasaSec(@item.ID,'@item.ADI')">@item.KODU - @item.ADI </a>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <input type="number" id="txtnakit" autocomplete="off" class="form-control" placeholder="Tutarı Giriniz." />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold btnnakit" data-dismiss="modal">Tamam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal " id="kart" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kredi Tahsilat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+                    <div class="d-flex align-items-center">
+                        <a href="/Era/CikisYap" class="mr-7">
+                            Çıkış Yap
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-root">
+                    <div class="d-flex flex-row flex-column-fluid page">
+                        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                            <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                                <div class="d-flex flex-column-fluid">
+                                    <div class=" container ">
+                                        <div class="card card-custom">
+                                            <div class="card-body">
+                                                <div class="mb-7">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-9 col-xl-8">
+
+                                                            <div class="row align-items-center">
+                                                                @if (t != null)
+                                                                {
+                                                                    <h5>Bakiye : @Html.Raw(t.Bakiye.ToString("N2"))</h5>
+                                                                }
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle drpBanka" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true">
+                                                                        BANKA
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        @foreach (var item in Banka.Data)
+                                                                        {
+                                                                            <a class="dropdown-item" data-banka="@item.ID" href="javascript:bankaSec(@item.ID,'@item.ADI')">@item.ADI</a>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle drpBanka" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true">
+                                                                        BANKA
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        @foreach (var item in Banka.Data)
+                                                                        {
+                                                                            <a class="dropdown-item" data-banka="@item.ID" href="javascript:bankaSec(@item.ID,'@item.ADI')">@item.ADI</a>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row align-items-center">
+                                                                <input type="number" id="txtkart" autocomplete="off" class="form-control" placeholder="Tutarı Giriniz Buraya" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive tblUrun" style="max-height:300px;overflow:scroll">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold btnkart" data-dismiss="modal">Tamam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
