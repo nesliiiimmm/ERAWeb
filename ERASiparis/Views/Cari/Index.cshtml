@@ -81,40 +81,45 @@
                                 <th class="pr-0" style="min-width: 60px">Borç</th>
                                 <th class="pr-0" style="min-width: 60px">Alacak</th>
                                 <th class="pr-0 text-right" style="min-width: 90px">Acıklama</th>
-                                @if (k.FATURA == true)
-                                {
-                                    <th class="pr-0" style="min-width: 50px">Detay</th>
-                                    <th class="pr-0" style="min-width: 50px">Makbuz</th>
-                                }
+                                <th class="pr-0" style="min-width: 50px">Detay</th>
+                                <th class="pr-0" style="min-width: 50px">Makbuz</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td class="pl-0">@item.FISNO</td>
-                                <td class="pl-0">@item.FISTIPI</td>
-                                <td class="pl-0">@item.TARIH.Value.ToShortDateString()</td>
-                                <td class="pl-0">@item.TP</td>
-                                <td class="pl-0">@{yaz(item.BORC);}</td>
-                                <td class="pl-0">@{yaz(item.ALACAK);}</td>
-                                <td class="pl-0 text-right">@item.ACIKLAMA</td>
-                                @if (k.FATURA == true)
-                                {
-                                    @if (item.FISTIPI == "11-Borc Dekontu")
-                                    {
-                                        <td class="pl-0"> <button class="btn btn-success btnHareketDetay" data-target="#HareketDetay" data-toggle="modal" data-id="@item.ID" type="button">Detay</button></td>
-                                        <td class="pl-0"> <a href="/Document/Index?id=@item.ID&faturatipi=Makbuz" class="btn btn-info" data-id="@item.ID" type="button">Makbuz</a></td>
-                                    }
-                                    else
-                                    {
-                                        <td class="pl-0"> <button class="btn btn-success" disabled>Detay</button></td>
-                                        <td class="pl-0"> <button class="btn btn-info" disabled>Makbuz</button></td>
+                                <tr>
+                                    <td class="pl-0">@item.FISNO</td>
+                                    <td class="pl-0">@item.FISTIPI</td>
+                                    <td class="pl-0">@item.TARIH.Value.ToShortDateString()</td>
+                                    <td class="pl-0">@item.TP</td>
+                                    <td class="pl-0">@{yaz(item.BORC);}</td>
+                                    <td class="pl-0">@{yaz(item.ALACAK);}</td>
+                                    <td class="pl-0 text-right">@item.ACIKLAMA</td>
+                                    <td class="pl-0">
+                                        <div class="dropdown dropdown-inline">
+                                            <button type="button" class="btn btn-info btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ki ki-bold-more-ver"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="/Document/SiparisRapor/@ViewBag.ID">&nbsp;&nbsp;Makbuz&nbsp;&nbsp;</a>
+                                                <a class="dropdown-item btn btn-success btnHareketDetay" data-target="#HareketDetay" data-toggle="modal" data-id="@item.ID" type="button">&nbsp;&nbsp;Detay&nbsp;&nbsp; </a>
+                                                <a class="dropdown-item" href="/Document/Whatsapp?actionresult=@ViewBag.ID">&nbsp;&nbsp;Sil&nbsp;&nbsp; </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    @*@if (item.FISTIPI == "11-Borc Dekontu")
+                                        {
+                                            <td class="pl-0"> <button class="btn btn-success btnHareketDetay" data-target="#HareketDetay" data-toggle="modal" data-id="@item.ID" type="button">Detay</button></td>
+                                            <td class="pl-0"> <a href="/Document/Index?id=@item.ID&faturatipi=Makbuz" class="btn btn-info" data-id="@item.ID" type="button">Makbuz</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="pl-0"> <button class="btn btn-success" disabled>Detay</button></td>
+                                            <td class="pl-0"> <button class="btn btn-info" disabled>Makbuz</button></td>
 
-                                    }
-
-                                }
-                            </tr>
+                                        }*@
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -294,7 +299,7 @@
             var keside = $("#txtKeside").val();
             var aciklama = $("#txtAciklama").val();
             $.get("/Cari/TPSecim?SeciliTip=" + seciliTip, function (res) {
-                $.get("/Cari/ceksenetTahsilat?ceknakit=" + ceknakit + "&banka=" + seciliBanka + "&seciliCSTip=" + seciliCSTip + "&vade=" + vade + "&borclu=" + borclu + "&serino=" + serino + "&keside=" + keside + "&aciklama=" + aciklama , function (res) {
+                $.get("/Cari/ceksenetTahsilat?ceknakit=" + ceknakit + "&banka=" + seciliBanka + "&seciliCSTip=" + seciliCSTip + "&vade=" + vade + "&borclu=" + borclu + "&serino=" + serino + "&keside=" + keside + "&aciklama=" + aciklama, function (res) {
                     location.reload();
                 });
             });
