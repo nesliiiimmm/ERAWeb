@@ -469,7 +469,7 @@ namespace ERASiparis.Controllers
         {
             var prm = aranan.CreateParameters("@p");//stok null ise 
 
-            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
+            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
             //Results.Add(new Result { Description = string.Format("Aramada Urun Getirme" + stok.Data.Count), Message = stok.Message, State = stok.State });
             if (stok.Data != null)
             {

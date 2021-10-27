@@ -81,8 +81,7 @@
                                 <th class="pr-0" style="min-width: 60px">Borç</th>
                                 <th class="pr-0" style="min-width: 60px">Alacak</th>
                                 <th class="pr-0 text-right" style="min-width: 90px">Acıklama</th>
-                                <th class="pr-0" style="min-width: 50px">Detay</th>
-                                <th class="pr-0" style="min-width: 50px">Makbuz</th>
+                                <th class="pr-0" style="min-width: 50px">İşlem</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,9 +101,22 @@
                                                 <i class="ki ki-bold-more-ver"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/Document/SiparisRapor/@ViewBag.ID">&nbsp;&nbsp;Makbuz&nbsp;&nbsp;</a>
-                                                <a class="dropdown-item btn btn-success btnHareketDetay" data-target="#HareketDetay" data-toggle="modal" data-id="@item.ID" type="button">&nbsp;&nbsp;Detay&nbsp;&nbsp; </a>
-                                                <a class="dropdown-item" href="/Document/Whatsapp?actionresult=@ViewBag.ID">&nbsp;&nbsp;Sil&nbsp;&nbsp; </a>
+                                                @if (item.FISTIPI == "11-Borc Dekontu")
+                                                {
+                                                    <a class="dropdown-item btnHareketDetay" data-target="#HareketDetay" data-toggle="modal" data-id="@item.ID">&nbsp;&nbsp;Detay&nbsp;&nbsp; </a>
+                                                    @if (k.FATURA == true)
+                                                    {
+                                                        <a class="dropdown-item" href="/Document/SiparisRapor/@item.ID">&nbsp;&nbsp;Makbuz&nbsp;&nbsp;</a>
+                                                        <a class="dropdown-item" href="/Document/Indir?id=@item.ID&faturatipi=Makbuz">&nbsp;&nbsp;İndir&nbsp;&nbsp; </a>
+                                                    }
+                                                }
+                                                else if (item.FISTIPI == "11-Karttan Tahsilat" || item.FISTIPI == "11-Nakit Tahsilat")
+                                                {
+                                                    //bu kısmı değiştireceğiz
+                                                    <a class="dropdown-item" href="/Document/SiparisRapor/@item.ID">&nbsp;&nbsp;Makbuz&nbsp;&nbsp;</a>
+                                                    <a class="dropdown-item" href="/Document/Indir?id=@item.ID&faturatipi=Makbuz">&nbsp;&nbsp;İndir&nbsp;&nbsp; </a>
+                                                }
+                                                <a class="dropdown-item btnCariHarSil" data-id="@item.ID">&nbsp;&nbsp;Sil&nbsp;&nbsp; </a>
                                             </div>
                                         </div>
                                     </td>
@@ -302,6 +314,12 @@
                 $.get("/Cari/ceksenetTahsilat?ceknakit=" + ceknakit + "&banka=" + seciliBanka + "&seciliCSTip=" + seciliCSTip + "&vade=" + vade + "&borclu=" + borclu + "&serino=" + serino + "&keside=" + keside + "&aciklama=" + aciklama, function (res) {
                     location.reload();
                 });
+            });
+        });
+        $(".btnCariHarSil").click(function () {
+            var id = $(this).data("id");
+            $.get("/Cari/CariHarSil?id=" + id, function (res) {
+                location.reload();
             });
         });
     </script>

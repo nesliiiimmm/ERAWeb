@@ -465,7 +465,7 @@ namespace ERASiparis.Controllers
         public PartialViewResult UrunArama(string aranan)
         {
             var prm = aranan.CreateParameters("@p");
-            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR SUBEKODU like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);//SUBEKODU yazan yer kodu mu şube kodu mu
+            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR SUBEKODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%') AND DR='K'", prm, SelectType.Text);//SUBEKODU yazan yer kodu mu şube kodu mu
             if (stok.Data != null)
             {
                 foreach (var item in stok.Data)

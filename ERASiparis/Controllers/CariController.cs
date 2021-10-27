@@ -506,8 +506,8 @@ namespace ERASiparis.Controllers
                 cs.KENDI = false;
                 cs.PORTFOYNO = FISNOORM.Current.FisnoVer("PORTNO");
                 cs.CARIKARTID = AktiCariKart.ID;
-                cs.TARIH = DateTime.Now;
-                cs.VADE = vade;
+                cs.TARIH = Convert.ToDateTime(DateTime.UtcNow.ToString("yyyy-MM-dd"));
+                cs.VADE = Convert.ToDateTime(vade.ToString("yyyy-MM-dd"));
                 cs.TUTAR = tutar;
                 cs.CIKISCARIKARTID = 0;
                 cs.BANKAADI = b.ADI;
@@ -535,7 +535,7 @@ namespace ERASiparis.Controllers
                 cs.AVUKATID = 0;//??
                 cs.BAGLANTIID = 0;
                 cs.YETKI = 0;
-                cs.TP = 0;
+                cs.TP = SeciliTP;
                 var res = CEKSENETORM.Current.Insert(cs);
 
                 CEKBOR cb = new CEKBOR();
@@ -562,6 +562,7 @@ namespace ERASiparis.Controllers
                 cb.CEKID = 0;
                 cb.DR = "K";
                 cb.YETKI = 0;
+                cb.TP = SeciliTP;
                 var res2 = CEKBORORM.Current.Insert(cb);
 
 
@@ -604,6 +605,7 @@ namespace ERASiparis.Controllers
                 car.KOMISYONTUTARI = 0;
                 car.PLAKA = "";
                 car.FATURAID = 0;
+                car.TP = SeciliTP;
                 car.ACIKLAMA = cb.FISNO + " Nolu 12-Çek Senet Giriş Bordrosu İşlemi (Web işlem)";
                 var res4 = CARIHARORM.Current.Insert(car);
 
@@ -809,7 +811,10 @@ namespace ERASiparis.Controllers
             }
         }
 
-
+        public void CariHarSil(int id)
+        {
+            var res = CARIHARORM.Current.DeleteWithID(id);
+        }
         public void TPSecim(int SeciliTip)
         {
             if (SeciliTip != 0)

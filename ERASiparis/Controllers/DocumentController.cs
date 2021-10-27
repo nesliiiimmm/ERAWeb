@@ -103,7 +103,7 @@ namespace ERASiparis.Controllers
             string externalIpString = new WebClient().DownloadString("http://icanhazip.com").Replace("\\r\\n", "").Replace("\\n", "").Trim();
             var externalIp = IPAddress.Parse(externalIpString);
             string dns = externalIp.ToString();
-            sb.Append($"http://{dns}:1941/");
+            sb.Append($"http://{dns}:1970/");
 
             //sb.Append($"http://localhost:1970/");
             sb.Append(ControllerName);
