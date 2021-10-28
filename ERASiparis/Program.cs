@@ -1,4 +1,5 @@
 using AYAK.Common.NetCore;
+using ERASiparis.Models.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -14,15 +15,15 @@ namespace ERASiparis
     {
         public static void Main(string[] args)
         {
-
             Console.WriteLine("Baþladým");
             if (args == null || args.Length < 8)
             {
                 return;
             }
             string sk = "f5547f1d-d923-4bcc-a0ff-2dea8654b4b5";
-            string tarih = string.Empty, port = string.Empty, genel = string.Empty, database = string.Empty, hash = string.Empty;
+            string tarih = string.Empty, port=string.Empty, genel = string.Empty, database = string.Empty, hash = string.Empty;
 
+            PcData.port = args[Array.IndexOf(args, "--urls") + 1];
             tarih = args[Array.IndexOf(args, "--tarih") + 1];
             port = args[Array.IndexOf(args, "--urls") + 1];
             genel = args[Array.IndexOf(args, "--genel") + 1];
@@ -41,7 +42,6 @@ namespace ERASiparis
 
             if (hash == myhash)
             {
-
                 Console.WriteLine("Güzel Hash Bro");
                 CreateHostBuilder(args).Build().Run();
             }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ERASiparis.Models
 {
-    [Table(TableName = "", IdentityColumn = "Yok", PrimaryKey = "ID")]
+    [Table(TableName = "CEKDURUM", IdentityColumn = "Yok", PrimaryKey = "ID")]
     public class CEKDURUM
     {
         public int ID { get; set; }

@@ -467,30 +467,33 @@ namespace ERASiparis.Controllers
         }
         public PartialViewResult UrunArama(string aranan)
         {
-            var prm = aranan.CreateParameters("@p");//stok null ise 
-
-            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
-            //Results.Add(new Result { Description = string.Format("Aramada Urun Getirme" + stok.Data.Count), Message = stok.Message, State = stok.State });
-            if (stok.Data != null)
+            if (!string.IsNullOrEmpty(aranan))
             {
-                foreach (var item in stok.Data)
-                {
-                    var s = StokToplamORM.Current.FirstOrDefault(x => x.TURUNID == item.ID);
+                var prm = aranan.CreateParameters("@p");//stok null ise 
 
-                    if (s != null)
+                var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
+                //Results.Add(new Result { Description = string.Format("Aramada Urun Getirme" + stok.Data.Count), Message = stok.Message, State = stok.State });
+                if (stok.Data != null)
+                {
+                    foreach (var item in stok.Data)
                     {
-                        item.STOK = s.MIKTAR;
-                        //Results.Add(new Result { Description = string.Format("Stok Toplam Hesaplama: " + item.STOK) });
+                        var s = StokToplamORM.Current.FirstOrDefault(x => x.TURUNID == item.ID);
+
+                        if (s != null)
+                        {
+                            item.STOK = s.MIKTAR;
+                            //Results.Add(new Result { Description = string.Format("Stok Toplam Hesaplama: " + item.STOK) });
+                        }
+                        else
+                        {
+                            item.STOK = 0;
+                            //Results.Add(new Result { Description = string.Format("Stok Toplam Hesaplama: Null (0) ") });
+                        }
+
                     }
-                    else
-                    {
-                        item.STOK = 0;
-                        //Results.Add(new Result { Description = string.Format("Stok Toplam Hesaplama: Null (0) ") });
-                    }
+                    return PartialView(stok.Data);
 
                 }
-                return PartialView(stok.Data);
-
             }
             return PartialView();
         }

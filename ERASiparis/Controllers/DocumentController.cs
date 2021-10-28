@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using ERASiparis.Models.Entities;
 
 namespace ERASiparis.Controllers
 {
@@ -25,10 +26,6 @@ namespace ERASiparis.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
         ISession Session => HttpContext.Session;
-        //public static string UserAdi { get; set; }
-        //public static string UserFirmaAdi { get; set; }
-        //public static string CariFirmaAdi { get; set; }
-        //public static string CariAdres { get; set; }
 
         private FIRMA _firma;
         public FIRMA Firma
@@ -103,7 +100,9 @@ namespace ERASiparis.Controllers
             string externalIpString = new WebClient().DownloadString("http://icanhazip.com").Replace("\\r\\n", "").Replace("\\n", "").Trim();
             var externalIp = IPAddress.Parse(externalIpString);
             string dns = externalIp.ToString();
-            sb.Append($"http://{dns}:1970/");
+            string Port = PcData.port;
+            Port = Port.Replace("http://0.0.0.0:","");
+            sb.Append($"http://{dns}:{Port}/");
 
             //sb.Append($"http://localhost:1970/");
             sb.Append(ControllerName);
@@ -163,12 +162,8 @@ namespace ERASiparis.Controllers
             return fileStreamResult;
         }
 
-        public IActionResult Indir(int id, string faturatipi/*, string uAdi, string uFirma, string cFirma, string cAdres*/)
+        public IActionResult Indir(int id, string faturatipi)
         {
-            //UserAdi = uAdi;
-            //UserFirmaAdi = uFirma;
-            //CariFirmaAdi = cFirma;
-            //CariAdres = cAdres;
 
             string DocName = "Siparis" + "_" + DateTime.Now.ToString("yyMMddhhmm");
             var fileStreamResult = CreatePDF("Document", faturatipi + "Rapor", id.ToString(), DocName);
@@ -182,20 +177,8 @@ namespace ERASiparis.Controllers
             var cari = CARIKARTORM.Current.FirstOrDefault(x => x.ID == sipust.CARIID);
             sm.TARIH = sipust.TARIH?.ToShortDateString();
             sm.SIPUST = sipust;
-
             sm.firma = Firma;
-
-            //sm.KIMDENADRES = Firma.ADRES;
-            //sm.KIMDENFIRMA = Firma.FIRMAADI;
-            //sm.KIMDENEMAIL = Firma.EMAIL;
-            //sm.KIMDENTELEFON = Firma.TELEFON;
-
             sm.cari = cari;
-
-            //sm.KIMEADRES = cari.ADRES;
-            //sm.KIMEFIRMA = cari.FIRMAADI;
-
-
             var siparis = Tools.Select<SIPARISVIEW>($@" select 
                     STOKKARTI.KODU,
                     STOKKARTI.ADI,
@@ -210,30 +193,20 @@ namespace ERASiparis.Controllers
                     WHERE SIPALT.SIPID={ID} AND SIPALT.DR='K'").Data;
 
             sm.SIPALTs = siparis;
-
             return View(sm);
         }
         public IActionResult MakbuzRapor(string id)
         {
+            string Port = PcData.port;
+            Port = Port.Replace("http://0.0.0.0:", "");
             int ID = Convert.ToInt32(id);
             STOKALTMAKBUZ sam = new STOKALTMAKBUZ();
             var stokust = STOKUSTORM.Current.FirstOrDefault(x => x.ID == ID);
-            var cari = CARIKARTORM.Current.FirstOrDefault(x => x.ID == stokust.ID);
+            var cari = CARIKARTORM.Current.FirstOrDefault(x => x.ID == stokust.CARIID);
             sam.TARIH = stokust.FATURA_TARIH?.ToShortDateString();
             sam.STOKUST = stokust;
-
             sam.firma = Firma;
-
-            //sam.KIMDENFIRMA = Firma.FIRMAADI;
-            //sam.KIMDENADRES = Firma.ADRES;
-            //sam.KIMDENEMAIL = Firma.EMAIL;
-            //sam.KIMDENTELEFON = Firma.TELEFON;
-
             sam.cari = cari;
-
-            //sam.KIMEFIRMA = CariFirmaAdi;
-            //sam.KIMEADRES = CariAdres;
-
             var siparis = Tools.Select<STOKALTVIEW>($@" select 
                     STOKKARTI.KODU,
                     STOKKARTI.ADI,
@@ -248,6 +221,11 @@ namespace ERASiparis.Controllers
                     WHERE STOKALT.STOKUST_ID={ID} AND STOKALT.DR='K'").Data;
             sam.STOKALTS = siparis;
             return View(sam);
+        }
+        public IActionResult TahsilatRapor(string id)
+        {
+            int ID = Convert.ToInt32(id);
+            return View();
         }
         //public void Whatsapp(int id)
         //{

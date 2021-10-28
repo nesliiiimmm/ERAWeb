@@ -329,7 +329,7 @@ namespace ERASiparis.Controllers
                 kasah.ACIKLAMA = "";
                 kasah.ACIKLAMA1 = "";
                 kasah.BORC = tutar;
-                kasah.ALACAK = 0;//UNDABIRGARIPLIKMIVAR
+                kasah.ALACAK = 0;
                 kasah.OZEL1 = "";
                 kasah.OZEL2 = "";
                 kasah.SATICIKODU = AktifUser.SATICIKODU;
@@ -338,7 +338,10 @@ namespace ERASiparis.Controllers
                 kasah.DR = "K";
                 kasah.TP = SeciliTP;
                 kasah.YETKI = 0;
-                kasah.ACIKLAMA = aciklama;
+                if (string.IsNullOrEmpty(aciklama))
+                    kasah.ACIKLAMA = "Kasa İşlem Fişi(Web İslemi)";
+                else
+                    kasah.ACIKLAMA = aciklama;
                 var control2 = KASAHARORM.Current.Insert(kasah);
                 Results.Add(control2);
 
@@ -385,13 +388,6 @@ namespace ERASiparis.Controllers
             if (nakit != null && nakit != "")
             {
                 decimal tutar = nakit.Replace(".", ",").ToDecimal();
-                //carihar kayıt gir 
-                //Tipi Tahsilat 
-                //Tarih
-                //cari id
-                //id 
-                //Kart işlem tablosuna
-                //karthavuz tablosuna kayıt aç 
                 KARTISLEM karislem = new KARTISLEM();
                 karislem.ID = SIRAORM.Current.SiraVer();
                 karislem.FISNO = FISNOORM.Current.FisnoVer("KARTISLEM");
@@ -411,7 +407,6 @@ namespace ERASiparis.Controllers
                 karislem.OZEL2 = "";
                 karislem.PROJE = "";
                 karislem.BAGLANTIID = 0;
-                karislem.ACIKLAMA = "";
                 karislem.ALACAK = 0;
                 karislem.BORC = tutar;
                 karislem.TAKSITSAYISI = 1;
@@ -430,6 +425,10 @@ namespace ERASiparis.Controllers
                 karislem.DR = "K";
                 karislem.TP = SeciliTP;
                 karislem.SUBE = 0;
+                if (string.IsNullOrEmpty(aciklama))
+                    karislem.ACIKLAMA = "Kart İşlem Fişi (Web işlemi)";
+                else
+                    karislem.ACIKLAMA = aciklama;
 
                 CARIHAR car = new CARIHAR();
                 car.SUBEKODU = "000";
@@ -459,6 +458,10 @@ namespace ERASiparis.Controllers
                 car.KOMISYONTUTARI = 0;
                 car.PLAKA = "";
                 car.FATURAID = 0;
+                if (string.IsNullOrEmpty(aciklama))
+                    car.ACIKLAMA = karislem.FISNO + " Nolu Kredi Kartı İşlem Fişi (Web İslemi)";
+                else
+                    car.ACIKLAMA = aciklama;
 
                 KARTHAVUZ khavuz = new KARTHAVUZ();
                 khavuz.ID = SIRAORM.Current.SiraVer();
@@ -476,8 +479,8 @@ namespace ERASiparis.Controllers
                 khavuz.ISLENDI = false;
                 khavuz.KARTID = 0;
                 khavuz.YETKI = 0;
-                //khavuz.DR = "K";
-                car.ACIKLAMA = karislem.FISNO + " Nolu Kredi Kartı İşlem Fişi (Web İslemi)";
+
+
                 var control = CARIHARORM.Current.Insert(car);
                 //Results.Add(control);
                 var control2 = KARTISLEMORM.Current.Insert(karislem);
@@ -495,7 +498,6 @@ namespace ERASiparis.Controllers
         {
             if (ceknakit != null && ceknakit != "")
             {
-
                 decimal tutar = ceknakit.Replace(".", ",").ToDecimal();
                 BANKA b = BANKAORM.Current.FirstOrDefault(x => x.ID == banka);
                 CEKSENET cs = new CEKSENET();
@@ -506,16 +508,16 @@ namespace ERASiparis.Controllers
                 cs.KENDI = false;
                 cs.PORTFOYNO = FISNOORM.Current.FisnoVer("PORTNO");
                 cs.CARIKARTID = AktiCariKart.ID;
-                cs.TARIH = Convert.ToDateTime(DateTime.UtcNow.ToString("yyyy-MM-dd"));
-                cs.VADE = Convert.ToDateTime(vade.ToString("yyyy-MM-dd"));
+                cs.TARIH = DateTime.Now;
+                //cs.AVUKAT_TARIH = DateTime.Now;
+                cs.VADE = vade;
                 cs.TUTAR = tutar;
                 cs.CIKISCARIKARTID = 0;
                 cs.BANKAADI = b.ADI;
                 cs.BANKASUBESI = b.HESAPSUBESI;
                 if (borclu == null)
                 {
-
-                    cs.BORCLU = AktiCariKart.ADI;//burayı sormam lazım 
+                    cs.BORCLU = AktiCariKart.FIRMAADI;//burayı sormam lazım 
                 }
                 else
                 {
@@ -525,7 +527,10 @@ namespace ERASiparis.Controllers
                 cs.BANKAID = banka;
                 cs.DURUMU = "Ciro";
                 cs.KESIDEYERI = keside;//???
-                cs.ACIKLAMA = aciklama;
+                if (string.IsNullOrEmpty(aciklama))
+                    cs.ACIKLAMA = "Kredi Kartı İşlem Fişi (Web İslemi)";
+                else
+                    cs.ACIKLAMA = aciklama;
                 cs.OZEL1 = "";
                 cs.OZEL2 = "";
                 cs.PROJE = "";
@@ -544,8 +549,12 @@ namespace ERASiparis.Controllers
                 cb.FISNO = FISNOORM.Current.FisnoVer("CEKBOR");
                 cb.TARIH = DateTime.Now;
                 cb.FISTIPI = "12-Çek Senet Giriş Bordrosu";//???
-                cb.ACIKLAMA = "Web Cek-Senet Tahsilatı";
+                if (string.IsNullOrEmpty(aciklama))
+                    cb.ACIKLAMA = "Web Cek-Senet Tahsilatı (Web İşlem)";
+                else
+                    cb.ACIKLAMA = aciklama;
                 cb.CARIKARTID = AktiCariKart.ID;
+                
                 cb.KASAHARID = 0;
                 cb.BANKAKARTID = 0;
                 cb.OZEL1 = "";
@@ -567,10 +576,14 @@ namespace ERASiparis.Controllers
 
 
                 CEKDURUM cd = new CEKDURUM();
+                cd.ID= SIRAORM.Current.SiraVer(); ;
                 cd.BORDROID = cb.ID;
                 cd.CEKID = cs.ID;
                 cd.DURUMU = "Portföy";
-                cd.ACIKLAMA = "Çek Senet Giris Bordrosu";
+                if (string.IsNullOrEmpty(aciklama))
+                    cd.ACIKLAMA = "Cek-Senet Tahsilatı (Web İşlem)";
+                else
+                    cd.ACIKLAMA = aciklama;
                 cd.DR = "K";
                 cd.CARIID = AktiCariKart.ID;
                 cd.BANKAID = banka;
@@ -675,7 +688,8 @@ namespace ERASiparis.Controllers
                 car.KAYITYERI = "KASAISLEM";
                 car.TP = SeciliTP;
                 car.KASAID = kasa;
-                car.ACIKLAMA1 = "";
+                car.ACIKLAMA=kasah.FISNO +"'lu Nakit Ödeme";
+                car.ACIKLAMA1 = "Web işlem";
                 car.DOVKURU = 0;
                 car.DOVTUTAR = 0;
                 car.PROJEKODU = "";
@@ -690,7 +704,8 @@ namespace ERASiparis.Controllers
                 car.KOMISYONTUTARI = 0;
                 car.PLAKA = "";
                 car.FATURAID = 0;//bunu bir sormak lazım 
-                car.ACIKLAMA = kasah.ID + " Nolu Kasa İşlem Fişi (Web İslemi)";//burda Fatura Bedelini de ekliyor 
+                car.ACIKLAMA = kasah.ID + " Nolu Kredi Nakit Ödeme Fişi (Web işlem)";//burda Fatura Bedelini de ekliyor 
+               
                 var control = CARIHARORM.Current.Insert(car);
                 Results.Add(control);
                 List<Result> rslt = Results ?? new List<Result>();
@@ -730,7 +745,7 @@ namespace ERASiparis.Controllers
                 karislem.OZEL2 = "";
                 karislem.PROJE = "";
                 karislem.BAGLANTIID = 0;
-                karislem.ACIKLAMA = "";
+                karislem.ACIKLAMA = aciklama;
                 karislem.ALACAK = tutar;
                 karislem.BORC = 0;
                 karislem.TAKSITSAYISI = 1;
@@ -764,7 +779,8 @@ namespace ERASiparis.Controllers
                 car.KAYITYERI = "FATURA";
                 car.TP = SeciliTP;
                 car.BANKAID = banka;
-                car.ACIKLAMA1 = "";
+                car.ACIKLAMA = karislem.FISNO + " Nolu Kredi Kartı Ödeme Fişi";
+                car.ACIKLAMA1 = "Web işlem";
                 car.DOVKURU = 0;
                 car.DOVTUTAR = 0;
                 car.PROJEKODU = "";

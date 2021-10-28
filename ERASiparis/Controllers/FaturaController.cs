@@ -464,26 +464,28 @@ namespace ERASiparis.Controllers
         }
         public PartialViewResult UrunArama(string aranan)
         {
-            var prm = aranan.CreateParameters("@p");
-            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR SUBEKODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%') AND DR='K'", prm, SelectType.Text);//SUBEKODU yazan yer kodu mu şube kodu mu
-            if (stok.Data != null)
+            if (!string.IsNullOrEmpty(aranan))
             {
-                foreach (var item in stok.Data)
+                var prm = aranan.CreateParameters("@p");
+                var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR SUBEKODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%') AND DR='K'", prm, SelectType.Text);//SUBEKODU yazan yer kodu mu şube kodu mu
+                if (stok.Data != null)
                 {
-                    var s = StokToplamORM.Current.FirstOrDefault(x => x.TURUNID == item.ID);
-                    if (s != null)
+                    foreach (var item in stok.Data)
                     {
-                        item.STOK = s.MIKTAR;
+                        var s = StokToplamORM.Current.FirstOrDefault(x => x.TURUNID == item.ID);
+                        if (s != null)
+                        {
+                            item.STOK = s.MIKTAR;
+                        }
+                        else
+                        {
+                            item.STOK = 0;
+                        }
                     }
-                    else
-                    {
-                        item.STOK = 0;
-                    }
+                    return PartialView(stok.Data);
                 }
-                return PartialView(stok.Data);
             }
             return PartialView();
-
         }
 
 
@@ -758,13 +760,13 @@ namespace ERASiparis.Controllers
                     NewMaster = null;//null ise yenisi oluşturuluyordu
                 }
                 Results = rslt;
-                return RedirectToAction("YeniSiparisList",new { Hata= "Siparisiniz oluşturulmuştur.." });
+                return RedirectToAction("YeniSiparisList", new { Hata = "Siparisiniz oluşturulmuştur.." });
             }
             else
             {
-                return RedirectToAction("YeniSiparisList",new { Hata= "lütfen bir ürün giriniz.." });
+                return RedirectToAction("YeniSiparisList", new { Hata = "lütfen bir ürün giriniz.." });
             }
-            
+
         }
         public ActionResult YeniSiparisUrunAzalt(int id)
         {
