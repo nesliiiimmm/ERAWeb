@@ -37,6 +37,8 @@
             <th style="max-width:60px"> KOD <br />STOK</th>
             <th> ADI </th>
             <th> SATIS FIYATI </th>
+            <th> SATIS2 </th>
+            <th> SATIS3 </th>
         </tr>
     </thead>
     <tbody>
@@ -44,15 +46,17 @@
         {
             @foreach (var item in Model)
             {
-                <tr>
-                    <th>
-                        <button class="btn btn-success btnUrunSec" data-id="@item.ID" type="button" style="float:left"><span class="sayi" data-id="@item.ID">0</span>+</button>
-                        <button class="btn btn-warning btnUrunAzalt" data-id="@item.ID" type="button" style="float:left">-</button>
-                    </th>
-                    <th style="max-width:60px;padding:1px"> @item.KODU <br />Stk:@{yaz1(item.STOK);} </th>
-                    <th> @item.ADI </th>
-                    <td class="pl-0"><input type="number" style="width: 85px" class="form-control satirFiyat txtEkleSatirFiyat" data-id="@item.ID" value="@{yaz(item.B1FIYAT_ST1);}" /> </td>
-                </tr>
+        <tr>
+            <th>
+                <button class="btn btn-success btnUrunSec" data-id="@item.ID" type="button" style="float:left"><span class="sayi" data-id="@item.ID">0</span>+</button>
+                <button class="btn btn-warning btnUrunAzalt" data-id="@item.ID" type="button" style="float:left">-</button>
+            </th>
+            <th style="max-width:60px;padding:1px"> @item.KODU <br />Stk:@{yaz1(item.STOK);} </th>
+            <th> @item.ADI </th>
+            <td class="pl-0"><input type="number" style="width: 85px" class="form-control satirFiyat txtEkleSatirFiyat" data-id="@item.ID" value="@{yaz(item.B1FIYAT_ST1);}" /> </td>
+            <td class="pl-0"><input type="number" style="width: 85px" class="form-control satirFiyat txtEkleSatirFiyat" data-id="@item.ID" value="@{yaz(item.B1FIYAT_ST2);}" /> </td>
+            <td class="pl-0"><input type="number" style="width: 85px" class="form-control satirFiyat txtEkleSatirFiyat" data-id="@item.ID" value="@{yaz(item.B1FIYAT_ST3);}" /> </td>
+        </tr>
             }
         }
     </tbody>
