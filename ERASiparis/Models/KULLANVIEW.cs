@@ -29,6 +29,7 @@ namespace ERASiparis.Models
             this.CARIARAMA = k.CARIARAMA;
             this.WEBKULLANICI = k.WEBKULLANICI;
             this.SATICIKODU = k.SATICIKODU;
+            this.URUNARAMA = k.URUNARAMA;
 
         }
     }

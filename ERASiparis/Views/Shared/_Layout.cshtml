@@ -57,30 +57,41 @@
                             <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
                                 <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default ">
                                     <ul class="menu-nav ">
-                                        @if (u.CARIACMA == true)
+                                        @if (u.URUNARAMA == true)
                                         {
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Cari/CariEkle" class="menu-link "><span class="menu-text">Cari Ekle</span></a></li>
-                                        }
 
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Document/Urunler" class="menu-link "><span class="menu-text">Ürün Listesi</span></a></li>
+                                        }
                                         else
                                         {
 
-                                        }
-                                        <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Cari/Index" class="menu-link "><span class="menu-text">Cari</span></a></li>
-                                        @if (u.SIPARIS == true && u.FATURA == false)
-                                        {
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Siparis/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Siparis/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
-                                        }
-                                        @if (u.FATURA == true && u.SIPARIS == false)
-                                        {
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
-                                        }
-                                        @if (u.FATURA == true && u.SIPARIS == true)
-                                        {
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
-                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                            @if (u.CARIACMA == true)
+                                            {
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Cari/CariEkle" class="menu-link "><span class="menu-text">Cari Ekle</span></a></li>
+                                            }
+
+                                            else
+                                            {
+
+                                            }
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Cari/Index" class="menu-link "><span class="menu-text">Cari</span></a></li>
+                                            @if (u.SIPARIS == true && u.FATURA == false)
+                                            {
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Siparis/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Siparis/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                            }
+                                            @if (u.FATURA == true && u.SIPARIS == false)
+                                            {
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                            }
+                                            @if (u.FATURA == true && u.SIPARIS == true)
+                                            {
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/Siparis" class="menu-link "><span class="menu-text">Siparisler</span></a></li>
+                                                <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Fatura/YeniSiparis" class="menu-link "><span class="menu-text">Yeni Siparisler</span></a></li>
+                                            }
+                                            <li class="menu-item  menu-item-active " aria-haspopup="true"><a href="/Document/Urunler" class="menu-link "><span class="menu-text">Ürün Listesi</span></a></li>
+
                                         }
                                     </ul>
                                 </div>

@@ -22,6 +22,7 @@ namespace ERASiparis.Models
         public bool? FATURA { get; set; }
         public bool? CARIACMA { get; set; }
         public bool? CARIARAMA { get; set; }
+        public bool? URUNARAMA { get; set; }
     }
     public class KULLANORM:ORMBase<KULLAN,KULLANORM>
     {

@@ -120,7 +120,10 @@ namespace ERASiparis.Controllers
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                     await HttpContext.SignInAsync(principal);
                     //FormsAuthentication.RedirectFromLoginPage(kul.ADI, true);
-                    return RedirectToAction("Index", "Cari");
+                    if (AktifUser.URUNARAMA != true)
+                        return RedirectToAction("Index", "Cari");
+                    else
+                        return RedirectToAction("Urunler", "Document");
                 }
                 else
                 {
@@ -129,7 +132,10 @@ namespace ERASiparis.Controllers
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                     await HttpContext.SignInAsync(principal);
                     //FormsAuthentication.RedirectFromLoginPage(kul.ADI, true);
-                    return RedirectToAction("Index", "Cari");
+                    if (AktifUser.URUNARAMA != true)
+                        return RedirectToAction("Index", "Cari");
+                    else
+                        return RedirectToAction("Urunler", "Document");
                 }
 
             }
@@ -137,7 +143,7 @@ namespace ERASiparis.Controllers
             if (cari != null)
             {
 
-                AktifUser = new KULLANVIEW { ID = cari.ID, KARTTIPI = cari.KARTTIPI, FIRMAADI = cari.FIRMAADI, ADI = cari.ADI, ISCARI = true, KREDITAHSILAT = false, NAKITTAHSILAT = false,CEKSENETTAHSILAT=false, CARIACMA = false, CARIARAMA = true, SIPARIS = true, FATURA = true, SATICIKODU = "" };
+                AktifUser = new KULLANVIEW { ID = cari.ID, KARTTIPI = cari.KARTTIPI, FIRMAADI = cari.FIRMAADI, ADI = cari.ADI, ISCARI = true, KREDITAHSILAT = false, NAKITTAHSILAT = false, CEKSENETTAHSILAT = false, CARIACMA = false, CARIARAMA = true, SIPARIS = true, FATURA = true, SATICIKODU = "", URUNARAMA = false };
                 if (cari.KARTTIPI == "1-Müşteri")
                 {
                     AktiCariKart = cari;
@@ -154,7 +160,10 @@ namespace ERASiparis.Controllers
                     var userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                     await HttpContext.SignInAsync(principal);
-                    return RedirectToAction("Index", "Cari");
+                    if (AktifUser.URUNARAMA != true)
+                        return RedirectToAction("Index", "Cari");
+                    else
+                        return RedirectToAction("Urunler", "Document");
                     //FormsAuthentication.RedirectFromLoginPage(cari.FIRMAADI, true);
                 }
                 else
@@ -163,7 +172,10 @@ namespace ERASiparis.Controllers
                     var userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                     await HttpContext.SignInAsync(principal);
-                    return RedirectToAction("Index", "Cari");
+                    if (AktifUser.URUNARAMA != true)
+                        return RedirectToAction("Index", "Cari");
+                    else
+                        return RedirectToAction("Urunler", "Document");
                     //FormsAuthentication.RedirectFromLoginPage(cari.FIRMAADI, false);
                 }
                 //return RedirectToAction("Index", "Cari");

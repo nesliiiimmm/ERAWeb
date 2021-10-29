@@ -90,7 +90,17 @@ namespace ERASiparis.Controllers
                 Session.SetString("AktifCariKart", JsonConvert.SerializeObject(value));
             }
         }
+        public IActionResult Urunler()
+        {
+            return View();
+        }
+        public PartialViewResult UrunArama(string arama)
+        {
+            var prm = arama.CreateParameters("@p");
+            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
 
+            return PartialView(stok.Data);
+        }
 
         public FileStreamResult CreatePDF(string ControllerName, string ActionName, string Model, string PdfName)
         {

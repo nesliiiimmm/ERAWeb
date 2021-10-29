@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+@model List<STOKKARTI>
+@{
+    void yaz(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N2").Replace(",", "."));
+        }
+        else
+        {
+            Write("0.00");
+        }
+    }
+}
+@{
+    void yaz1(decimal? v)
+    {
+        if (v.HasValue)
+        {
+            Write(v.Value.ToString("N0").Replace(",", "."));
+        }
+        else
+        {
+            Write("0");
+        }
+    }
+}
+<table class="table table-head-custom table-vertical-center">
+    <thead>
+        <tr class="text-left">
+            <th> ADI </th>
+            <th> SATISF1</th>
+            <th> SATISF2 </th>
+            <th> SATISF3 </th>
+            <th> KODU </th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.Any())
+    {
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <th> @item.ADI </th>
+                <th>@{yaz(item.B1FIYAT_ST1);}</th>
+                <th>@{yaz(item.B1FIYAT_ST2);}</th>
+                <th>@{yaz(item.B1FIYAT_ST3);}</th>
+                <th> @item.KODU </th>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5">Kayıt Bulunamadı</td>
+        </tr>
+    }
+
+</table>
