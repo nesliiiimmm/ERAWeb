@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-@model STOKALTMAKBUZ
+@model TAHSILATMAKBUZ
 <html>
 <head>
     <meta charset="UTF-8">
@@ -248,9 +248,9 @@
     <div id="container">
         <div id="header">
             <div id="reference">
-                <h3><strong>Siparis Fişi</strong></h3>
-                <h4>FisNo. :@Model.STOKUST.FATURA_FISNO </h4>
-                <p>Tarih : @Model.STOKUST.FATURA_TARIH</p>
+                <h3><strong>@Model.carihar.FISTIPI</strong></h3>
+                <h4>FisNo. :@Model.carihar.FISNO </h4>
+                <p>Tarih : @Model.Tarih</p>
             </div>
         </div>
 
@@ -258,8 +258,8 @@
             <div id="from">
                 <p>
                     <strong>Kimden</strong><br>
-                    Adi: @Model.firma.TAMUNVAN<br>
-                    Firma: @Model.firma.FIRMAADI <br>
+                    Adi: @Model.Firma.TAMUNVAN<br>
+                    Firma: @Model.Firma.FIRMAADI <br>
                     @*il-ilce <br><br>
                         Tl.:05457166322 <br>
                         Email: Mail <br>*@
@@ -268,56 +268,31 @@
             <div id="to">
                 <p>
                     <strong>Kime</strong><br>
-                    Adi: @Model.cari.FIRMAADI<br>
-                    Adres: @Model.cari.ADRES <br>
+                    Adi: @Model.Cari.FIRMAADI<br>
+                    Adres: @Model.Cari.ADRES <br>
                 </p>
             </div>
         </div>
 
-        <div id="items">
-            @*<p>Montants exprimés en Euros</p>*@
-            <table>
-                <tr>
-                    <th>ADI</th>
-                    <th>KODU</th>
-                    <th>MIKTAR</th>
-                    <th>FIYAT</th>
-                    <th>TUTAR</th>
-                    <th>GENELTOPLAM</th>
-                </tr>
-                @foreach (var item in Model.STOKALTS)
-                {
-                    <tr>
-                        <th>@item.ADI</th>
-                        <th>@item.KODU</th>
-                        <th>@item.MIKTAR</th>
-                        <th>@item.FIYAT</th>
-                        <th>@item.TUTAR</th>
-                        <th>@item.GENELTOPLAM</th>
-                    </tr>
-                }
-
-            </table>
-        </div>
 
         <div id="summary">
             <div id="note">
-                <h4>Not:</h4>
-                <p>@Model.STOKUST.ACIKLAMA1</p>
+                <h4>Aciklama:</h4>
+                <p>@Model.carihar.ACIKLAMA</p>
             </div>
             <div id="total">
                 <table border="1">
                     <tr>
-                        <td>Satır Toplam</td>
-                        <td>@Model.STOKUST.TOPLAM</td>
+                        <td>Fisno:</td>
+                        <td>@Model.carihar.FISNO</td>
                     </tr>
                     <tr>
-                        <td>KDV</td>
-                        <td>@Model.STOKUST.KDV1Y</td>
+                        <td>Aciklama:</td>
+                        <td>@Model.carihar.ACIKLAMA1</td>
                     </tr>
                     <tr>
-                        <td>Genel Toplam</td>
-                        <td>@Model.STOKUST.GENELTOPLAM</td>
+                        <td>Tutar</td>
+                        <td>@Model.Tutar</td>
                     </tr>
                 </table>
             </div>

@@ -17,7 +17,7 @@
     },
     "ERASiparis": {
       "commandName": "Project",
-      "commandLineArgs": "--tarih 20210127132135 --urls http://0.0.0.0:1970 --genel \"Server=.\\NESLIHAN;Database=Genel;Trusted_Connection=True;\" --database \"Server=.\\NESLIHAN;Database=Db_200;Trusted_Connection=True;\" --hash 7c92381526b8f1df53fe72381509ab5a --tirrek ahmet1258212910",
+      "commandLineArgs": "--tarih 20210127132135 --urls http://0.0.0.0:1970 --genel \"Server=.\\NESLIHAN;Database=Genel;Trusted_Connection=True;\" --database \"Server=.\\NESLIHAN;Database=Db_200;Trusted_Connection=True;\" --hash 7c92381526b8f1df53fe72381509ab5a --tirrek ahmet131821911",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

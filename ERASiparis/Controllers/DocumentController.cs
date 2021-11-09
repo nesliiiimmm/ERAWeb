@@ -97,7 +97,7 @@ namespace ERASiparis.Controllers
         public PartialViewResult UrunArama(string arama)
         {
             var prm = arama.CreateParameters("@p");
-            var stok = STOKKARTIORM.Current.Select("Select TOP 20 * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
+            var stok = STOKKARTIORM.Current.Select("Select * from STOKKARTI WHERE (ADI like '%'+@p+'%' OR ACIKLAMA like '%'+@p+'%' OR KODU like '%'+@p+'%' OR BRM1BARKOD like '%'+@p+'%' OR BRM2BARKOD like '%'+@p+'%' OR BRM3BARKOD like '%'+@p+'%' ) AND DR='K'", prm, SelectType.Text);
 
             return PartialView(stok.Data);
         }
@@ -207,8 +207,6 @@ namespace ERASiparis.Controllers
         }
         public IActionResult MakbuzRapor(string id)
         {
-            string Port = PcData.port;
-            Port = Port.Replace("http://0.0.0.0:", "");
             int ID = Convert.ToInt32(id);
             STOKALTMAKBUZ sam = new STOKALTMAKBUZ();
             var stokust = STOKUSTORM.Current.FirstOrDefault(x => x.ID == ID);
@@ -235,7 +233,16 @@ namespace ERASiparis.Controllers
         public IActionResult TahsilatRapor(string id)
         {
             int ID = Convert.ToInt32(id);
-            return View();
+            var carihar = CARIHARORM.Current.FirstOrDefault(x => x.ID == ID);
+            var cari = CARIKARTORM.Current.FirstOrDefault(x => x.ID == carihar.CARIKARTID);
+            
+            TAHSILATMAKBUZ tah = new TAHSILATMAKBUZ();
+            tah.Tarih = carihar.TARIH?.ToShortDateString();
+            tah.Tutar = carihar.ALACAK + carihar.BORC;
+            tah.Firma = Firma;
+            tah.Cari = cari;
+            tah.carihar = carihar;
+            return View(tah);
         }
         //public void Whatsapp(int id)
         //{

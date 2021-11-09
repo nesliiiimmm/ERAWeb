@@ -21,13 +21,14 @@ namespace ERASiparis.Models
         public STOKUST STOKUST { get; set; }
         public FIRMA firma { get; set;}
         public CARIKART cari { get; set; }
-        //public string KIMEFIRMA { get; set; }
-        //public string KIMEADRES { get; set; }
-        //public string KIMDENFIRMA { get; set; }
-        //public string KIMDENADRES { get; set; }
-        //public string KIMDENTELEFON { get; set; }
-        //public string KIMDENEMAIL { get; set; }
         public string TARIH { get; set; }
-
+    }
+    public class TAHSILATMAKBUZ
+    {
+        public FIRMA Firma { get; set; }
+        public CARIKART Cari { get; set; }
+        public CARIHAR carihar { get; set; }
+        public decimal? Tutar { get; set; }
+        public string Tarih { get; set; }
     }
 }
